@@ -394,6 +394,9 @@ class Wrapper:
     def completedOrdersEnd(self):
         self._endReq('completedOrders')
 
+    def replaceFAEnd(self, orderId:int, message:str) -> None:
+        self.ib.replaceFAEndEvent.emit(orderId, message == "")
+
     def orderStatus(
             self, orderId: int, status: str, filled: float, remaining: float,
             avgFillPrice: float, permId: int, parentId: int,

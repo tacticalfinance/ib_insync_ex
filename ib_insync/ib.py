@@ -189,7 +189,7 @@ class IB:
         'updatePortfolioEvent', 'positionEvent', 'accountValueEvent',
         'accountSummaryEvent', 'pnlEvent', 'pnlSingleEvent',
         'scannerDataEvent', 'tickNewsEvent', 'newsBulletinEvent',
-        'errorEvent', 'timeoutEvent')
+        'errorEvent', 'timeoutEvent', 'replaceFAEndEvent')
 
     RequestTimeout: float = 0
     RaiseRequestErrors: bool = False
@@ -228,6 +228,7 @@ class IB:
         self.newsBulletinEvent = Event('newsBulletinEvent')
         self.errorEvent = Event('errorEvent')
         self.timeoutEvent = Event('timeoutEvent')
+        self.replaceFAEndEvent = Event('replaceFAEndEvent')
 
     def __del__(self):
         self.disconnect()
@@ -1633,7 +1634,7 @@ class IB:
         """
         return self._run(self.requestFAAsync(faDataType))
 
-    def replaceFA(self, faDataType: int, xml: str):
+    def replaceFA(self, faDataType: int, xml: str) -> int:
         """
         Replaces Financial Advisor's settings.
 
@@ -1643,6 +1644,7 @@ class IB:
         """
         reqId = self.client.getReqId()
         self.client.replaceFA(reqId, faDataType, xml)
+        return reqId
 
     # now entering the parallel async universe
 
